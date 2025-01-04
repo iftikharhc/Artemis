@@ -1,9 +1,10 @@
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import ProfileSelector from "./profile-selector";
 
 function FamilyRoute (){
     return(
         <View style={styles.scene}>
+            {/* <Text>Family Route</Text> */}
             <ProfileSelector />
         </View>
     )

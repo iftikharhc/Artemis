@@ -1,17 +1,18 @@
-import { StyleSheet, Text, View } from "react-native";
 import Tabbar from "../navigation/tabbar";
+import { useDispatch } from "react-redux";
+import { ThunkDispatch } from "@reduxjs/toolkit";
+import { useEffect } from "react";
+import { getTrainerWithStudents } from "../../../store";
 
 function Family(){
+
+    const dispatch = useDispatch<ThunkDispatch<any, any, any>>()
+    
+    useEffect(() => {
+            dispatch(getTrainerWithStudents({}));
+    }, [ dispatch ])
     return(
-        <View style={styles.container}>
-            <Tabbar/>
-        </View>
+        <Tabbar/>
     )
 }
 export default Family;
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-    }
-})

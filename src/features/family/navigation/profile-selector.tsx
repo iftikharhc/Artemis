@@ -1,22 +1,35 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView, Animated } from 'react-native';
 import CoachProfileCard from '../components/coach';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import StageOutcomes from '../components/stage-outcomes';
-import { fakeProfiles } from '../../../data/fake-data';
+import { useSelector } from 'react-redux';
+import { fakeImages } from '../../../data/fake-data';
 
 interface Profile {
-  id: number;
+  _id: number;
   name: string;
-  description: string;
+  specialization: string;
   image: string;
 }
 
-const profiles: Profile[] = fakeProfiles;
 
 const ProfileSelector = () => {
-  const [selectedProfile, setSelectedProfile] = useState<Profile>(profiles[0]);
+  const images = fakeImages;
+  const [profiles , setProfiles ] = useState([]);
+  const [selectedProfile, setSelectedProfile] = useState<Profile>();
   const scrollViewRef = useRef<ScrollView>(null);
+
+  const { data = [], error, isLoading } = useSelector((state: any) =>  state.family )  
+
+  useEffect(()=> {
+    if (Array.isArray(data)) {
+      setProfiles(data);
+      setSelectedProfile(data[0]);
+    } else {
+      setProfiles([]); // Fallback to an empty array
+    }
+  }, [data])
 
   const handleProfileSelect = (profile: Profile, index: number) => {
     setSelectedProfile(profile);
@@ -35,27 +48,27 @@ const ProfileSelector = () => {
             ref={scrollViewRef}
             showsHorizontalScrollIndicator={false}
           >
-            {profiles.map((profile, index) => (
+            {profiles && profiles?.map((profile, index) => (
               <TouchableOpacity
-                key={profile.id}
+                key={profile?._id}
                 style={styles.profileWrapper}
                 onPress={() => handleProfileSelect(profile, index)}
               >
                 <View
                   style={[
                     styles.profileImageWrapper,
-                    profile.id === selectedProfile.id && styles.selectedProfile,
+                    profile?._id === selectedProfile?._id && styles.selectedProfile,
                   ]}
                 >
                   <Image
-                    source={profile.image}
+                    source={images[profile.name]}
                     style={
-                      profile.id === selectedProfile.id
+                      profile?._id === selectedProfile?._id
                         ? styles.selectedProfileImage
                         : styles.profileImage
                     }
                   />
-                  {profile.id === selectedProfile.id && (
+                  {profile?._id === selectedProfile?._id && (
                     <View style={styles.checkmarkContainer}>
                       <Icon name="check" size={12} color="white" />
                     </View>
@@ -66,8 +79,8 @@ const ProfileSelector = () => {
           </ScrollView>
         </View>
         <View style={styles.infoContainer}>
-          <Text style={styles.name}>{selectedProfile.name}</Text>
-          <Text style={styles.description}>{selectedProfile.description}</Text>
+          <Text style={styles.name}>{selectedProfile?.name}</Text>
+          <Text style={styles.description}>{selectedProfile?.specialization}</Text>
           <StageOutcomes />
           <CoachProfileCard />
         </View>

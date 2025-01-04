@@ -1,34 +1,76 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
+import { StyleSheet, Text, View, Dimensions, useWindowDimensions } from 'react-native';
+import { TabView, TabBar, SceneMap } from 'react-native-tab-view';
 import FamilyRoute from './family-route';
 import InsertNewRoute from './insert-route';
-import { tabbbarData } from '../../../data/fake-data';
 
-const renderScene = SceneMap({
-  family: FamilyRoute,
-  insertNew1: InsertNewRoute,
-  insertNew2: InsertNewRoute,
-  insertNew3: InsertNewRoute,
-  more: InsertNewRoute,
-});
 
+// const renderScene = SceneMap({
+//   family: FamilyRoute,
+//   insertNew1: InsertNewRoute,
+//   // insertNew2: InsertNewRoute,
+//   // insertNew3: InsertNewRoute,
+//   // more: InsertNewRoute
+// });
+
+const routes = [
+    { key: 'family', title: 'Family' },
+    { key: 'insertNew1', title: 'Insert New' },
+    { key: 'insertNew2', title: 'Insert New' },
+    { key: 'insertNew3', title: 'Insert New' },
+    { key: 'more', title: 'More' },
+]
 const Tabbar = () => {
   const [index, setIndex] = useState(0);
-  const [routes] = useState(tabbbarData);
+  const layout = useWindowDimensions();
+  // const [routes] = useState();
 
-  const renderTabBar = (props: any) => (
+  // const renderScene = ({ route }) => {
+  //   console.log('Rendering Route:', route.key); // Debug log
+  //   switch (route.key) {
+  //     case 'family':
+  //       return <FamilyRoute />;
+  //     case 'insertNew1':
+  //     case 'insertNew2':
+  //     case 'insertNew3':
+  //     case 'more':
+  //       return <InsertNewRoute />;
+  //     default:
+  //       return null;
+  //   }
+  // };
+
+  const renderScene = ({route}) => {
+    console.log('index = ' + index + ' and key == '+ route.key)
+    if(route.key == "family" && index == 0) {
+      return <FamilyRoute />
+    }
+    else if(route.key == "insertNew1" && index == 1) {
+      return <InsertNewRoute />
+    }
+    else if(route.key == "insertNew2" && index == 2) {
+      return <InsertNewRoute />
+    }
+    else if(route.key == "insertNew3" && index == 3) {
+      return <InsertNewRoute />
+    }
+    else if(route.key == "more" && index == 4) {
+      return <InsertNewRoute />
+    }
+  }
+
+  const renderTabBar = (props) => (
     <TabBar
       {...props}
-      tabStyle={{width: 90}}
-      activeColor='#7C001F'
-      inactiveColor='#332F2F'
+      tabStyle={{ width: 90 }}
+      activeColor="#7C001F"
+      inactiveColor="#332F2F"
       indicatorStyle={styles.indicator}
       style={styles.tabBar}
-      scrollEnabled={true}  // Enable horizontal scrolling
+      scrollEnabled
       renderLabel={({ route, focused }) => (
         <View style={styles.tabLabelContainer}>
-          <Text style={[styles.tabLabel, focused ? styles.tabLabelFocused : null]}>
+          <Text style={[styles.tabLabel, focused && styles.tabLabelFocused]}>
             {route.title}
           </Text>
         </View>
@@ -42,8 +84,9 @@ const Tabbar = () => {
       navigationState={{ index, routes }}
       renderScene={renderScene}
       onIndexChange={setIndex}
-      initialLayout={{ width: 400 }}
+      initialLayout={{ width: layout.width }}
       renderTabBar={renderTabBar}
+      lazy={true}
     />
   );
 };
@@ -55,22 +98,18 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   indicator: {
-    backgroundColor: '#B71C1C', // Dark red color for the indicator
+    backgroundColor: '#B71C1C',
     height: 3,
   },
   tabLabelContainer: {
     alignItems: 'center',
     justifyContent: 'center',
-    position: 'relative', // To position the badge
-    width: 100,  // Set width of each tab to 100
+    width: 100,
   },
   tabLabel: {
-    
+    color: '#332F2F',
   },
   tabLabelFocused: {
-    color: '#B71C1C', // Dark red for the active tab
+    color: '#B71C1C',
   },
 });
-
-
-

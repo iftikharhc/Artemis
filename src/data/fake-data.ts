@@ -12,50 +12,14 @@ export const outcomes = [
 ];
 
 
-export const fakeProfiles = [
-    {
-      id: 1,
-      name: 'William Murphy',
-      description: 'European Aquatic Professional',
-      image: require('../../assets/profile.png'),
-    },
-    {
-      id: 2,
-      name: 'Sarah Johnson',
-      description: 'Professional Swimmer',
-      image: require('../../assets/profile2.png'),
-    },
-    {
-      id: 3,
-      name: 'Emily Brown',
-      description: 'Freestyle Specialist',
-      image: require('../../assets/profile3.png'),
-    },
-    {
-      id: 4,
-      name: 'Michael Smith',
-      description: 'Diving Expert',
-      image: require('../../assets/profile4.png'),
-    },
-    {
-      id: 5,
-      name: 'Chris Robert',
-      description: 'Diving Expert',
-      image: require('../../assets/profile2.png'),
-    },
-    {
-      id: 6,
-      name: 'James Anderson',
-      description: 'Diving Expert',
-      image: require('../../assets/profile.png'),
-    },
-    {
-      id: 7,
-      name: 'Abdul Mateen',
-      description: 'Diving Expert',
-      image: require('../../assets/profile4.png'),
-    },
-];
+export const fakeImages = {
+  Stephen: require('../../assets/Stephen.png'),
+  John: require('../../assets/John.png'),
+  Mary: require('../../assets/Mary.png'),
+  Shezie: require('../../assets/Shezie.png'),
+  
+};
+
 
 export const tabbbarData = [
     { key: 'family', title: 'Family' },
